@@ -63,7 +63,7 @@ public static class Levels {
     }
 
     static char[] level06(char[] chars) {
-        int[] ints = { 1, 6, 4, 1, 2, 2 };
+        int[] ints = { 3, 1, 4, 1, 5, 9 };
         for (int i = 0; i < chars.Length; i++) {
             chars [i] = ItoC (CtoI (chars [i]) + ints [i]);
         }
@@ -154,27 +154,27 @@ public static class Levels {
 
     public static string getHint(int level){
         if (level == 1)
-            return "No hint neccessary";
+            return "Don't be afraid to try all 0s";
         else if (level == 2)
             return "Try entering 333333";
         else if (level == 3)
-            return "See what happens if a number is odd or even.";
+            return "Even the evens are odd";
         else if (level == 4)
-            return "Read right to left.";
+            return "Make it backwards";
         else if (level == 5)
-            return "Look at what happens when a number is odd or even.";
+            return "Odd numbers don't divide by 2";
         else if (level == 6)
-            return "Try 111111 and look at what happens to each 1";
+            return "Who doesn't like Pi?";
         else if (level == 7)
-            return "Think right to left again";
+            return "Think back again";
         else if (level == 8)
-            return "Look at what happens if a number is even or odd";
+            return "The odds decrease for this one";
         else if (level == 9)
-            return "Multiplication";
+            return "Numbers are easy, letters are not";
         else if (level == 10)
-            return "Think before...";
+            return "It's not different, or is it?";
         else if (level == 11)
-            return "Try switching some numbers around";
+            return "Make the switch";
         else
             return "You won!";
     }
