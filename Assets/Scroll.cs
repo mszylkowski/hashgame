@@ -12,17 +12,22 @@ public class Scroll : MonoBehaviour {
     public float lastPress;
     public float maxHeight;
     public float minHeight;
+    public string cursor = " ";
+
+    private string textValue;
 
     public float ratio;
 
     public Camera camera;
 
+    public Keyboard keyboard;
+
 	// Use this for initialization
 	void Start () {
 	   consoleText = transform.GetChild(0);
        maxHeight = -1.83f;
-       UpdateString();
        ratio = camera.pixelHeight * .1f;
+       StartCoroutine(CursorBlink());
 	}
 	
 	// Update is called once per frame
@@ -51,7 +56,12 @@ public class Scroll : MonoBehaviour {
         consoleText.transform.position = Vector3.up * progress + Vector3.left * 2.7f;
 	}
 
-    public void UpdateString() {
+    public void UpdateString(string text) {
+        textValue = text;
+        if (keyboard.encoding) {
+            cursor = " ";
+        }
+        updateCursor();
         height = consoleText.GetComponent<TextMesh>().text.Split('\n').Length * .5f;
         minHeight = maxHeight - height + 6.2f;
         if (minHeight > maxHeight) {
@@ -84,5 +94,25 @@ public class Scroll : MonoBehaviour {
             progress = maxHeight* .5f + previousProgress * .5f;
             previousProgress = progress;
         }
+    }
+
+    IEnumerator CursorBlink() {
+        while(true) {
+            if (cursor == " " && !keyboard.encoding) {
+                cursor = "_";
+                updateCursor();
+                yield return new WaitForSeconds(.8f);
+            } else {
+                cursor = " ";
+                updateCursor();
+                yield return new WaitForSeconds(.5f);
+            }
+            
+            
+        }
+    }
+
+    private void updateCursor() {
+        consoleText.GetComponent<TextMesh>().text = textValue + cursor;
     }
 }

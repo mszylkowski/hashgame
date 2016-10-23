@@ -14,6 +14,7 @@ public class Keyboard : MonoBehaviour {
     public Transform progressBar;
     public bool encoding;
     public Scroll scroll;
+    public string consoleValue;
 
     public Buttons button1;
     public Buttons button2;
@@ -47,22 +48,21 @@ public class Keyboard : MonoBehaviour {
             }
             countVertical++;
         }
-        consoleText.text = "Enter 6 characters\nand try matching\nthe hash to\nbeat the level\n\n------ LEVEL 01 ------\n> ";
-        scroll.UpdateString();
+        consoleValue = "Enter 6 characters as\ninput and match the\nhash output to\nbeat the level\n\n------ LEVEL 01 ------\n> ";
+        scroll.UpdateString(consoleValue);
         StartCoroutine(changeProgress());
     }
 
     public void InputKey(string key) {
-        scroll.UpdateString();
         if (encoding) return;
         if (key == "DEL") {
             if (field.Length > 0) {
                 field = field.Substring(0, field.Length-1);
-                consoleText.text = consoleText.text.Substring(0, consoleText.text.Length-1);
             }
+            scroll.UpdateString(consoleValue + field.ToLower());
         } else {
             field += key;
-            consoleText.text += key.ToLower();
+            scroll.UpdateString(consoleValue + field.ToLower());
         }
 
         if (field.Length > 6) {
@@ -77,29 +77,29 @@ public class Keyboard : MonoBehaviour {
     IEnumerator encode(string result) {
         button1.hide();
         button2.hide();
-        string previous = consoleText.text;
+        consoleValue += field.ToLower();
         encoding = true;
         for (int index = 0; index < result.Length; index++) {
             for (int rep = 0; rep < index/2 + 3; rep++) {
                 yield return null;yield return null;yield return null;
                 string last = result.Substring(0, index).ToLower() + RandomString(result.Length - index);
-                consoleText.text = previous + "\nEncoding: " + last.ToLower();
-                scroll.UpdateString();
+                scroll.UpdateString(consoleValue + "\nEncoding: " + last.ToLower());
             }
         }
-        consoleText.text = previous + "\nEncoded: " + result.ToLower() + "\n";
-        scroll.UpdateString();
+        consoleValue += "\nEncoded: " + result.ToLower() + "\n";
+        scroll.UpdateString(consoleValue);
         if (hash == result) {
             progress++;
             if (progress >= 2) {
                 level++;
             } else {
-                consoleText.text += "> ";
+                consoleValue += "> ";
             }
             StartCoroutine(changeProgress());
         } else {
-            consoleText.text += "> ";
+            consoleValue += "> ";
         }
+        scroll.UpdateString(consoleValue);
         field = "";
         encoding = false;
     }
@@ -119,8 +119,8 @@ public class Keyboard : MonoBehaviour {
 
         if (progress == 2) {
             progress = 0;
-            consoleText.text += "\n----- LEVEL " + level.ToString("00") + " -----\n> ";
-            scroll.UpdateString();
+            consoleValue += "\n----- LEVEL " + level.ToString("00") + " -----\n> ";
+            scroll.UpdateString(consoleValue);
             StartCoroutine(changeProgress());
         }
     }
