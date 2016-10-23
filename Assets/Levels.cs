@@ -52,6 +52,7 @@ public static class Levels {
         System.Array.Reverse(chars);
         return chars;
     }
+
     static char[] level05(char[] chars) {
         for (int i = 0; i < chars.Length; i++) {
             chars [i] = ItoC (CtoI (chars [i]) + 1);
@@ -77,6 +78,7 @@ public static class Levels {
         }
         return chars;
     }
+
     static char[] level08(char[] chars) {
         int[] ints = { 1, 1, 3, 3, 5, 5 };
         for (int i = 0; i < chars.Length; i++) {
@@ -97,19 +99,6 @@ public static class Levels {
         return chars;
     }
 
-
-    static char[] level11(char[] chars){
-        char letter = chars[1];
-        chars[1] = chars[3];
-        chars[2] = ItoC(CtoI(chars[2]) + 6);
-        chars[3] = letter;
-        letter = chars [4];
-        chars[4] = chars[5];
-        chars[5] = letter;
-        chars [1] = ItoC (CtoI (chars [1]) - 4);
-        return chars;
-    }
-
     static char[] level10(char[] chars){
         int letter = CtoI(chars [0]);
         int letter1 = CtoI(chars [1]);
@@ -125,6 +114,19 @@ public static class Levels {
         chars [0] = ItoC(CtoI(chars [0]) - letter5);
         return chars;
     }
+
+    static char[] level11(char[] chars){
+        char letter = chars[1];
+        chars[1] = chars[3];
+        chars[2] = ItoC(CtoI(chars[2]) + 6);
+        chars[3] = letter;
+        letter = chars [4];
+        chars[4] = chars[5];
+        chars[5] = letter;
+        chars [1] = ItoC (CtoI (chars [1]) - 4);
+        return chars;
+    }
+
     public static char[] encodelevel(int level, char[] chars) {
         if (level == 1)
             return level01 (chars);
